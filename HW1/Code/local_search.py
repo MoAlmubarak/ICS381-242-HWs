@@ -14,36 +14,31 @@ def objective_f(state, S, T):
     return abs(T - np.sum(B))
 
 def get_neighbor(state):
-    """Generates one new random neighbor for state.
-    
-    Args:
-        state: List/array of 0/1 values
-    """
     # Make a deep copy of state
     n_state = deepcopy(state)
     
     # Case 1: Both on and off bits exist
     if 0 < sum(state) < len(state):
         # Sample u uniformly
-        u = np.random.uniform()
+        u = np.random.uniform() # Random number between 0 and 1 (uniform)
         
         if u < 0.5:  # Remove element
             # Get indices that have value 1
             indices = [i for i, x in enumerate(state) if x == 1]
-            idx = np.random.choice(indices)
-            n_state[idx] = 0
+            idx = np.random.choice(indices) # Randomly choose one index
+            n_state[idx] = 0 # Set that index to 0
         else:  # Add element
             # Get indices that have value 0
-            indices = [i for i, x in enumerate(state) if x == 0]
-            idx = np.random.choice(indices)
-            n_state[idx] = 1
+            indices = [i for i, x in enumerate(state) if x == 0] # Get indices that have value 0 (off)
+            idx = np.random.choice(indices) # Randomly choose one index (off)
+            n_state[idx] = 1 # Set that index to 1 (on)
             
     # Case 2: All bits are on
-    elif sum(state) == len(state):
+    elif sum(state) == len(state): # All bits are on (1)
         # Remove element
-        indices = [i for i, x in enumerate(state) if x == 1]
-        idx = np.random.choice(indices)
-        n_state[idx] = 0
+        indices = [i for i, x in enumerate(state) if x == 1] # Get indices that have value 1 (on) 
+        idx = np.random.choice(indices) # Randomly choose one index (on) 
+        n_state[idx] = 0 # Set that index to 0
         
     # Case 3: All bits are off
     else:
@@ -55,17 +50,6 @@ def get_neighbor(state):
     return n_state
 
 def simulated_annealing(initial_state, S, T, initial_temp=1000):
-    """Implementation of simulated annealing for subset sum problem.
-    
-    Args:
-        initial_state: Initial subset selection (list/array of 0/1)
-        S: Numpy 1D array of integers
-        T: Target sum integer
-        initial_temp: Initial temperature (default 1000)
-    
-    Returns:
-        Tuple of (final_state, iterations)
-    """
     # 1. Set temperature to initial_temp
     temp = initial_temp
     

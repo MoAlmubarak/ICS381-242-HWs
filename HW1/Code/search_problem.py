@@ -3,67 +3,45 @@ from copy import deepcopy
 
 class GridHunterProblem:
     def __init__(self, initial_agent_info, N, monster_coords):
-        """Initialize the GridHunterProblem.
-        
-        Args:
-            initial_agent_info: Tuple (row, col, forw, health) for agent's starting position
-            N: Size of the grid (N x N)
-            monster_coords: List of (row, col) tuples for monster starting positions
-        """
-        self.N = N
-        self.monster_coords = monster_coords
+        self.N = N # Grid size
+        self.monster_coords = monster_coords # List of (row, col) tuples for monster positions
         # Create initial state with all monsters alive (False = alive)
         monster_states = tuple(False for _ in monster_coords)
         self.initial_state = initial_agent_info + (0,) + monster_states
 
     def move_monsters(self, timestep):
-        """Return new monster positions based on timestep.
-        
-        Args:
-            timestep: Integer representing monster movement phase
-        Returns:
-            List of (row, col) tuples for new monster positions
-        """
-        new_positions = []
+        new_positions = [] # New monster positions
+        # Move monsters based on timestep
         for row, col in self.monster_coords:
-            if timestep % 4 == 0:  # Initial position
+            if timestep % 4 == 0 or timestep % 4 == 2:  # Initial position
                 new_positions.append((row, col))
             elif timestep % 4 == 1:  # Move left
                 new_positions.append((row, max(0, col - 1)))
-            elif timestep % 4 == 2:  # Back to initial
-                new_positions.append((row, col))
-            else:  # Move right
+            elif timestep % 4 == 3:  # Move right
                 new_positions.append((row, min(self.N - 1, col + 1)))
         return new_positions
 
     def actions(self, state):
-        """Return list of valid actions from state.
-        
-        Args:
-            state: Current state tuple (row, col, forw, health, mstep, *monster_states)
-        Returns:
-            List of valid action strings
-        """
-        row, col, forw, health, mstep = state[:5]
+        row, col, forw, health = state[:4] # Agent info
         
         # Check if agent is dead
         if health <= 0:
             return []
             
-        # All possible actions
-        # Return actions in specific order as required
+        # All actions
         all_actions = ['move-forward', 'turn-left', 'turn-right', 'shoot-arrow', 'stay']
         
         # Check if move-forward would go out of bounds
-        next_row, next_col = row, col
-        if forw == 'north':
-            next_row -= 1
-        elif forw == 'south':
-            next_row += 1
-        elif forw == 'east':
-            next_col += 1
-        elif forw == 'west':
-            next_col -= 1
+        direction_deltas = {
+            'north': (-1, 0),
+            'south': (1, 0),
+            'east': (0, 1),
+            'west': (0, -1)
+        }
+        # Calculate the change in row and column based on the current direction
+        delta_row, delta_col = direction_deltas[forw]
+        # Determine the next position if the agent moves forward
+        next_row, next_col = row + delta_row, col + delta_col
             
         # Remove move-forward if it would go out of bounds
         if next_row < 0 or next_row >= self.N or next_col < 0 or next_col >= self.N:
@@ -72,14 +50,6 @@ class GridHunterProblem:
         return all_actions
 
     def result(self, state, action):
-        """Return the state that results from taking action in state.
-        
-        Args:
-            state: Current state tuple
-            action: Action string
-        Returns:
-            Resulting state tuple
-        """
         row, col, forw, health, mstep = state[:5]
         monster_states = list(state[5:])
         
@@ -100,23 +70,19 @@ class GridHunterProblem:
             elif forw == 'west':
                 new_col -= 1
         elif action == 'turn-left':
-            if forw == 'north':
-                new_forw = 'west'
-            elif forw == 'west':
-                new_forw = 'south'
-            elif forw == 'south':
-                new_forw = 'east'
-            elif forw == 'east':
-                new_forw = 'north'
+            new_forw = {
+            'north': 'west',
+            'west': 'south',
+            'south': 'east',
+            'east': 'north'
+            }[forw]
         elif action == 'turn-right':
-            if forw == 'north':
-                new_forw = 'east'
-            elif forw == 'east':
-                new_forw = 'south'
-            elif forw == 'south':
-                new_forw = 'west'
-            elif forw == 'west':
-                new_forw = 'north'
+            new_forw = {
+            'north': 'east',
+            'east': 'south',
+            'south': 'west',
+            'west': 'north'
+            }[forw]
         elif action == 'shoot-arrow':
             # Get arrow path based on direction
             arrow_row, arrow_col = new_row, new_col
@@ -149,35 +115,26 @@ class GridHunterProblem:
         return (new_row, new_col, new_forw, new_health, new_mstep) + tuple(monster_states)
 
     def action_cost(self, state1, action, state2):
-        """Return cost of taking action from state1 to state2."""
-        return 1
+        return 1 # All actions have cost 1
 
     def is_goal(self, state):
-        """Return True if state is a goal state."""
-        health = state[3]
-        monster_states = state[5:]
-        return all(monster_states) and health > 0
+        health = state[3] # Agent health
+        monster_states = state[5:] # Monster states
+        return all(monster_states) and health > 0 # All monsters dead and agent alive
 
     def h(self, node):
-        """Return heuristic estimate of distance to goal.
-        
-        Args:
-            node: Node object containing state information
-        Returns:
-            Heuristic value (minimum row distance to any alive monster)
-        """
-        if self.is_goal(node.state):
-            return 0
+        if self.is_goal(node.state): # If goal state reached
+            return 0 # Heuristic is 0
             
-        row = node.state[0]
-        monster_positions = self.move_monsters(node.state[4])
-        monster_states = node.state[5:]
+        row = node.state[0] # Agent row
+        monster_positions = self.move_monsters(node.state[4]) # Monster positions at next timestep
+        monster_states = node.state[5:] # Monster states (alive or dead)
         
         # Find minimum row distance to any alive monster
         min_distance = float('inf')
         for i, (m_row, _) in enumerate(monster_positions):
             if not monster_states[i]:  # If monster is alive
-                distance = abs(row - m_row)
-                min_distance = min(min_distance, distance)
+                distance = abs(row - m_row) # Manhattan distance to monster row position
+                min_distance = min(min_distance, distance) # Update minimum distance
                 
         return min_distance
