@@ -58,12 +58,12 @@ def backtracking_helper(csp, assignment={}, current_domains=None):
     return None
 
 # default ordering; returns variables in same order as given
-def var_selection_function(csp, assignment, current_domains):
-    return [var for var in csp.variables if var not in assignment][0]
+# def var_selection_function(csp, assignment, current_domains):
+#     return [var for var in csp.variables if var not in assignment][0]
 
 # default ordering; returns values in same order as given
-def val_order_function(csp, var, assignment, current_domains):
-    return [val for val in current_domains[var]]
+# def val_order_function(csp, var, assignment, current_domains):
+#     return [val for val in current_domains[var]]
     
 def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
     # if no arcs_queue is passed,
@@ -111,4 +111,67 @@ def revise(csp, xi, xj, current_domains):
             revised = True
             
     return revised
+
+# Minimum Remaining Values (MRV) heuristic implementation
+def mrv(csp, assignment, current_domains):
+    """
+    Minimum Remaining Values (MRV) heuristic selects the variable with the fewest 
+    remaining values in its domain.
     
+    Args:
+        csp: The constraint satisfaction problem
+        assignment: Current partial assignment
+        current_domains: Current domains of variables
+    
+    Returns:
+        Variable with the minimum remaining values
+    """
+    unassigned_vars = [var for var in csp.variables if var not in assignment]
+    
+    # Return the variable with the minimum remaining values in its domain
+    return min(unassigned_vars, key=lambda var: len(current_domains[var]))
+
+# Least Constraining Value (LCV) heuristic implementation
+def lcv(csp, var, assignment, current_domains):
+    """
+    Least Constraining Value (LCV) heuristic orders values by the number of values 
+    they eliminate in neighboring variables. Values that eliminate the fewest options 
+    for neighboring variables are tried first.
+    
+    Args:
+        csp: The constraint satisfaction problem
+        var: The variable to assign
+        assignment: Current partial assignment
+        current_domains: Current domains of variables
+    
+    Returns:
+        List of values ordered by the LCV heuristic
+    """
+    # Get neighboring variables that are not yet assigned
+    neighbors = [n for n in csp.adjacency[var] if n not in assignment]
+    
+    # For each value in the domain of var, count how many values it would eliminate
+    # from neighboring variables
+    def count_conflicts(val):
+        conflicts = 0
+        for neighbor in neighbors:
+            for neighbor_val in current_domains[neighbor]:
+                if not csp.constraint_consistent(var, val, neighbor, neighbor_val):
+                    conflicts += 1
+        return conflicts
+    
+    # Return values ordered by the number of conflicts they create (least first)
+    return sorted(current_domains[var], key=count_conflicts)
+
+# Update the variable selection and value ordering functions in backtracking
+def var_selection_function(csp, assignment, current_domains):
+    """
+    Uses the MRV (Minimum Remaining Values) heuristic to select the next variable.
+    """
+    return mrv(csp, assignment, current_domains)
+
+def val_order_function(csp, var, assignment, current_domains):
+    """
+    Uses the LCV (Least Constraining Value) heuristic to order the values.
+    """
+    return lcv(csp, var, assignment, current_domains)
