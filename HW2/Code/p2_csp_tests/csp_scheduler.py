@@ -1,4 +1,5 @@
 from collections import defaultdict
+import numpy as np
 
 class SchedulerCSP:
     """
@@ -58,14 +59,17 @@ class SchedulerCSP:
             preferred_profs, student_count, duration, _ = self.course_info_dict[course]
             
             # Consider all allowed combinations
-            for prof in preferred_profs:
-                for loc_name, capacity in self.loc_info_dict.items():
-                    # Check if location has enough capacity
-                    if capacity >= student_count:
-                        # Check all possible start times
-                        for t_idx in range(len(self.time_slots) - duration + 1):
-                            # Course must fit within available time slots
-                            domain.append((prof, loc_name, t_idx))
+            for prof in self.professors:  # Use all professors, not just preferred
+                # Check if professor is in preferred list
+                if prof in preferred_profs:
+                    for loc_name in self.loc_info_dict:
+                        capacity = self.loc_info_dict[loc_name]
+                        # Check if location has enough capacity
+                        if capacity >= student_count:
+                            # Check all possible start times
+                            for t_idx in range(len(self.time_slots) - duration + 1):
+                                # Course must fit within available time slots
+                                domain.append((prof, loc_name, t_idx))
             
             domains[course] = domain
         
@@ -104,7 +108,25 @@ class SchedulerCSP:
         if len(assignment) != len(self.variables):
             return False
         
-        # Check if assignment is consistent
+        # Check if all domain values are valid 
+        for course, (prof, loc, start_time) in assignment.items():
+            # Check if professor is in preferred list
+            preferred_profs = self.course_info_dict[course][0]
+            if prof not in preferred_profs:
+                return False
+                
+            # Check if location has enough capacity
+            capacity = self.loc_info_dict[loc]
+            student_count = self.course_info_dict[course][1]
+            if capacity < student_count:
+                return False
+                
+            # Check if course fits within time slots
+            duration = self.course_info_dict[course][2]
+            if start_time + duration > len(self.time_slots):
+                return False
+        
+        # Check if assignment is consistent with all constraints
         return self.check_partial_assignment(assignment)
     
     def check_partial_assignment(self, assignment):
@@ -127,19 +149,30 @@ class SchedulerCSP:
             duration1 = self.course_info_dict[course1][2]
             end_time1 = start_time1 + duration1
             
+            # Check constraint: courses must fit within available time slots
+            if end_time1 > len(self.time_slots):
+                return False
+                
+            # Check constraint: professor must be in preferred list
+            if prof1 not in self.course_info_dict[course1][0]:
+                return False
+                
+            # Check constraint: location must have enough capacity
+            if self.loc_info_dict[loc1] < self.course_info_dict[course1][1]:
+                return False
+            
             # Check prerequisite constraints
-            prereq_list = self.course_info_dict[course1][3]
-            for prereq in prereq_list:
+            for prereq in self.course_info_dict[course1][3]:  # prerequisites list
                 if prereq in assignment:
-                    # Prerequisite course must end before this course starts
-                    _, _, start_time_prereq = assignment[prereq]
-                    duration_prereq = self.course_info_dict[prereq][2]
-                    end_time_prereq = start_time_prereq + duration_prereq
+                    _, _, prereq_start = assignment[prereq]
+                    prereq_duration = self.course_info_dict[prereq][2]
+                    prereq_end = prereq_start + prereq_duration
                     
-                    if end_time_prereq > start_time1:
+                    # Prerequisite course must end before this course starts
+                    if prereq_end > start_time1:
                         return False
             
-            # Check for conflicts with other assigned courses
+            # Check constraints with other courses
             for course2 in assignment:
                 if course1 != course2:
                     prof2, loc2, start_time2 = assignment[course2]
@@ -193,14 +226,26 @@ class SchedulerCSP:
         # No location can host two courses at the same time
         if time_overlap and loc1 == loc2:
             return False
+        
+        # Check prerequisite constraints (direct prerequisites)
+        prereqs1 = self.course_info_dict[var1][3]
+        prereqs2 = self.course_info_dict[var2][3]
+        
+        # Check if var2 is a prerequisite for var1
+        if var2 in prereqs1 and end_time2 > start_time1:
+            return False
             
-        # Check prerequisite constraints in both directions
-        if var2 in self.course_info_dict[var1][3]:  # var2 is a prerequisite for var1
-            if end_time2 > start_time1:
+        # Check if var1 is a prerequisite for var2
+        if var1 in prereqs2 and end_time1 > start_time2:
+            return False
+        
+        # Make sure we're checking in course_info_dict correctly
+        if var1 in self.course_info_dict and var2 in self.course_info_dict:
+            # Check other prerequisite relations from the before_courses mapping
+            if var2 in self.before_courses.get(var1, []) and end_time1 > start_time2:
                 return False
-                
-        if var1 in self.course_info_dict[var2][3]:  # var1 is a prerequisite for var2
-            if end_time1 > start_time2:
+            
+            if var1 in self.before_courses.get(var2, []) and end_time2 > start_time1:
                 return False
         
         return True

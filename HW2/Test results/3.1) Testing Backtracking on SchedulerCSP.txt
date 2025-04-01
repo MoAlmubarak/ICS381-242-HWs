@@ -1,0 +1,17 @@
+3.1) Testing Backtracking on SchedulerCSP (0/30)
+Warning: Failed on Backtracking on solvable SchedulerCSP #0. Check implementation: -3 points.
+Algorithm finished on time, but solution return is not a goal.
+courses=['Course-0', 'Course-1', 'Course-2', 'Course-3', 'Course-4', 'Course-5'], professors=[np.str_('Prof-6'), np.str_('Prof-4'), np.str_('Prof-5'), np.str_('Prof-3'), np.str_('Prof-2'), np.str_('Prof-0'), np.str_('Prof-1')], loc_info_dict={'Loc-0': 39, 'Loc-1': 32, 'Loc-2': 35, 'Loc-3': 19, 'Loc-4': 30, 'Loc-5': 40, 'Loc-6': 45, 'Loc-7': 44, 'Loc-8': 35, 'Loc-9': 16, 'Loc-10': 31, 'Loc-11': 34, 'Loc-12': 24, 'Loc-13': 42, 'Loc-14': 18, 'Loc-15': 18, 'Loc-16': 33, 'Loc-17': 36, 'Loc-18': 10, 'Loc-19': 11}, course_info_dict={'Course-0': [[np.str_('Prof-0'), np.str_('Prof-3')], 35, 1, ['Course-3']], 'Course-1': [[np.str_('Prof-3')], 32, 2, ['Course-5', 'Course-3']], 'Course-2': [[np.str_('Prof-6'), np.str_('Prof-5')], 26, 1, []], 'Course-3': [[np.str_('Prof-2')], 26, 2, []], 'Course-4': [[np.str_('Prof-6'), np.str_('Prof-5')], 36, 2, ['Course-5', 'Course-2']], 'Course-5': [[np.str_('Prof-4')], 19, 1, ['Course-3', 'Course-2']]}, time_slots=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+your answer {'Course-0': (np.str_('Prof-0'), 'Loc-0', 2), 'Course-1': (np.str_('Prof-3'), 'Loc-0', 3), 'Course-2': (np.str_('Prof-6'), 'Loc-0', 0), 'Course-3': (np.str_('Prof-2'), 'Loc-1', 0), 'Course-4': (np.str_('Prof-6'), 'Loc-0', 5), 'Course-5': (np.str_('Prof-4'), 'Loc-1', 2)}
+correct assignment answer {'Course-0': (np.str_('Prof-6'), 'Loc-0', 0), 'Course-1': (np.str_('Prof-6'), 'Loc-0', 1), 'Course-2': (np.str_('Prof-4'), 'Loc-0', 6), 'Course-3': (np.str_('Prof-6'), 'Loc-0', 7), 'Course-4': (np.str_('Prof-4'), 'Loc-5', 0), 'Course-5': (np.str_('Prof-6'), 'Loc-0', 4)}
+______________________________________________________________________________________
+Warning: Failed on Backtracking on solvable SchedulerCSP #1. Check implementation: -3 points.
+Time-limit of 20 seconds exceeded. Check if you have infinite loops in SchedulerCSP.
+Check that you get correct implementation on all functions of SchedulerCSP.
+______________________________________________________________________________________
+Traceback (most recent call last):
+  File "/autograder/242/242-pa/pa2/MAKE-STUDENT-OUTPUT/tests/test_schedulercsp_backtracking.py", line 64, in test_schedulercsp_backtracking
+    is_complete = all([(ref_assignment[var] == ans_assignment[var]) for var in ref_assignment])
+  File "/autograder/242/242-pa/pa2/MAKE-STUDENT-OUTPUT/tests/test_schedulercsp_backtracking.py", line 64, in <listcomp>
+    is_complete = all([(ref_assignment[var] == ans_assignment[var]) for var in ref_assignment])
+TypeError: 'NoneType' object is not subscriptable

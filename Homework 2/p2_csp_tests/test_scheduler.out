@@ -1,0 +1,129 @@
+10
+_______________________________________________________________________
+['Course-0', 'Course-1', 'Course-2', 'Course-3', 'Course-4', 'Course-5', 'Course-6', 'Course-7', 'Course-8', 'Course-9']
+_______________________________________________________________________
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+_______________________________________________________________________
+{'Course-0': [['Prof-6', 'Prof-5', 'Prof-1', 'Prof-12', 'Prof-9', 'Prof-10'], 37, 1, []], 'Course-1': [['Prof-3', 'Prof-5', 'Prof-9', 'Prof-8', 'Prof-0', 'Prof-6', 'Prof-4'], 10, 1, []], 'Course-2': [['Prof-2', 'Prof-6', 'Prof-1', 'Prof-8', 'Prof-10', 'Prof-12', 'Prof-5'], 13, 2, ['Course-0']], 'Course-3': [['Prof-12', 'Prof-4', 'Prof-13', 'Prof-7', 'Prof-6', 'Prof-10'], 5, 1, ['Course-7']], 'Course-4': [['Prof-0', 'Prof-12', 'Prof-5', 'Prof-4', 'Prof-13', 'Prof-3'], 27, 2, []], 'Course-5': [['Prof-3', 'Prof-11', 'Prof-8', 'Prof-4', 'Prof-12', 'Prof-6', 'Prof-7', 'Prof-5', 'Prof-0'], 40, 1, ['Course-3']], 'Course-6': [['Prof-2', 'Prof-4', 'Prof-6', 'Prof-1', 'Prof-8'], 27, 1, ['Course-9']], 'Course-7': [['Prof-5', 'Prof-7', 'Prof-10', 'Prof-13', 'Prof-11', 'Prof-4'], 29, 2, []], 'Course-8': [['Prof-4', 'Prof-9', 'Prof-8', 'Prof-2', 'Prof-13', 'Prof-1', 'Prof-6', 'Prof-7'], 26, 2, ['Course-4', 'Course-7']], 'Course-9': [['Prof-6', 'Prof-9', 'Prof-13', 'Prof-1', 'Prof-3', 'Prof-7'], 7, 2, ['Course-0', 'Course-5']]}
+_______________________________________________________________________
+{'Loc-0': 38, 'Loc-1': 26, 'Loc-2': 19, 'Loc-3': 17, 'Loc-4': 31, 'Loc-5': 29, 'Loc-6': 41, 'Loc-7': 30, 'Loc-8': 14, 'Loc-9': 16, 'Loc-10': 42, 'Loc-11': 14, 'Loc-12': 14, 'Loc-13': 28, 'Loc-14': 42, 'Loc-15': 25, 'Loc-16': 22}
+_______________________________________________________________________
+[['Prof-3', 'Prof-11', 'Prof-8', 'Prof-4', 'Prof-12', 'Prof-6', 'Prof-7', 'Prof-5', 'Prof-0'], 40, 1, ['Course-3']]
+[('Prof-10', 'Loc-6', 0), ('Prof-10', 'Loc-6', 1), ('Prof-10', 'Loc-6', 2), ('Prof-10', 'Loc-6', 3), ('Prof-10', 'Loc-6', 4), ('Prof-10', 'Loc-6', 5), ('Prof-10', 'Loc-6', 6), ('Prof-10', 'Loc-6', 7), ('Prof-10', 'Loc-6', 8), ('Prof-10', 'Loc-6', 9), ('Prof-10', 'Loc-6', 10), ('Prof-10', 'Loc-6', 11), ('Prof-10', 'Loc-6', 12), ('Prof-10', 'Loc-6', 13), ('Prof-10', 'Loc-10', 0), ('Prof-10', 'Loc-10', 1), ('Prof-10', 'Loc-10', 2), ('Prof-10', 'Loc-10', 3), ('Prof-10', 'Loc-10', 4), ('Prof-10', 'Loc-10', 5), ('Prof-10', 'Loc-10', 6), ('Prof-10', 'Loc-10', 7), ('Prof-10', 'Loc-10', 8), ('Prof-10', 'Loc-10', 9), ('Prof-10', 'Loc-10', 10), ('Prof-10', 'Loc-10', 11), ('Prof-10', 'Loc-10', 12), ('Prof-10', 'Loc-10', 13), ('Prof-10', 'Loc-14', 0), ('Prof-10', 'Loc-14', 1), ('Prof-10', 'Loc-14', 2), ('Prof-10', 'Loc-14', 3), ('Prof-10', 'Loc-14', 4), ('Prof-10', 'Loc-14', 5), ('Prof-10', 'Loc-14', 6), ('Prof-10', 'Loc-14', 7), ('Prof-10', 'Loc-14', 8), ('Prof-10', 'Loc-14', 9), ('Prof-10', 'Loc-14', 10), ('Prof-10', 'Loc-14', 11), ('Prof-10', 'Loc-14', 12), ('Prof-10', 'Loc-14', 13), ('Prof-9', 'Loc-6', 0), ('Prof-9', 'Loc-6', 1), ('Prof-9', 'Loc-6', 2), ('Prof-9', 'Loc-6', 3), ('Prof-9', 'Loc-6', 4), ('Prof-9', 'Loc-6', 5), ('Prof-9', 'Loc-6', 6), ('Prof-9', 'Loc-6', 7), ('Prof-9', 'Loc-6', 8), ('Prof-9', 'Loc-6', 9), ('Prof-9', 'Loc-6', 10), ('Prof-9', 'Loc-6', 11), ('Prof-9', 'Loc-6', 12), ('Prof-9', 'Loc-6', 13), ('Prof-9', 'Loc-10', 0), ('Prof-9', 'Loc-10', 1), ('Prof-9', 'Loc-10', 2), ('Prof-9', 'Loc-10', 3), ('Prof-9', 'Loc-10', 4), ('Prof-9', 'Loc-10', 5), ('Prof-9', 'Loc-10', 6), ('Prof-9', 'Loc-10', 7), ('Prof-9', 'Loc-10', 8), ('Prof-9', 'Loc-10', 9), ('Prof-9', 'Loc-10', 10), ('Prof-9', 'Loc-10', 11), ('Prof-9', 'Loc-10', 12), ('Prof-9', 'Loc-10', 13), ('Prof-9', 'Loc-14', 0), ('Prof-9', 'Loc-14', 1), ('Prof-9', 'Loc-14', 2), ('Prof-9', 'Loc-14', 3), ('Prof-9', 'Loc-14', 4), ('Prof-9', 'Loc-14', 5), ('Prof-9', 'Loc-14', 6), ('Prof-9', 'Loc-14', 7), ('Prof-9', 'Loc-14', 8), ('Prof-9', 'Loc-14', 9), ('Prof-9', 'Loc-14', 10), ('Prof-9', 'Loc-14', 11), ('Prof-9', 'Loc-14', 12), ('Prof-9', 'Loc-14', 13), ('Prof-2', 'Loc-6', 0), ('Prof-2', 'Loc-6', 1), ('Prof-2', 'Loc-6', 2), ('Prof-2', 'Loc-6', 3), ('Prof-2', 'Loc-6', 4), ('Prof-2', 'Loc-6', 5), ('Prof-2', 'Loc-6', 6), ('Prof-2', 'Loc-6', 7), ('Prof-2', 'Loc-6', 8), ('Prof-2', 'Loc-6', 9), ('Prof-2', 'Loc-6', 10), ('Prof-2', 'Loc-6', 11), ('Prof-2', 'Loc-6', 12), ('Prof-2', 'Loc-6', 13), ('Prof-2', 'Loc-10', 0), ('Prof-2', 'Loc-10', 1), ('Prof-2', 'Loc-10', 2), ('Prof-2', 'Loc-10', 3), ('Prof-2', 'Loc-10', 4), ('Prof-2', 'Loc-10', 5), ('Prof-2', 'Loc-10', 6), ('Prof-2', 'Loc-10', 7), ('Prof-2', 'Loc-10', 8), ('Prof-2', 'Loc-10', 9), ('Prof-2', 'Loc-10', 10), ('Prof-2', 'Loc-10', 11), ('Prof-2', 'Loc-10', 12), ('Prof-2', 'Loc-10', 13), ('Prof-2', 'Loc-14', 0), ('Prof-2', 'Loc-14', 1), ('Prof-2', 'Loc-14', 2), ('Prof-2', 'Loc-14', 3), ('Prof-2', 'Loc-14', 4), ('Prof-2', 'Loc-14', 5), ('Prof-2', 'Loc-14', 6), ('Prof-2', 'Loc-14', 7), ('Prof-2', 'Loc-14', 8), ('Prof-2', 'Loc-14', 9), ('Prof-2', 'Loc-14', 10), ('Prof-2', 'Loc-14', 11), ('Prof-2', 'Loc-14', 12), ('Prof-2', 'Loc-14', 13), ('Prof-13', 'Loc-6', 0), ('Prof-13', 'Loc-6', 1), ('Prof-13', 'Loc-6', 2), ('Prof-13', 'Loc-6', 3), ('Prof-13', 'Loc-6', 4), ('Prof-13', 'Loc-6', 5), ('Prof-13', 'Loc-6', 6), ('Prof-13', 'Loc-6', 7), ('Prof-13', 'Loc-6', 8), ('Prof-13', 'Loc-6', 9), ('Prof-13', 'Loc-6', 10), ('Prof-13', 'Loc-6', 11), ('Prof-13', 'Loc-6', 12), ('Prof-13', 'Loc-6', 13), ('Prof-13', 'Loc-10', 0), ('Prof-13', 'Loc-10', 1), ('Prof-13', 'Loc-10', 2), ('Prof-13', 'Loc-10', 3), ('Prof-13', 'Loc-10', 4), ('Prof-13', 'Loc-10', 5), ('Prof-13', 'Loc-10', 6), ('Prof-13', 'Loc-10', 7), ('Prof-13', 'Loc-10', 8), ('Prof-13', 'Loc-10', 9), ('Prof-13', 'Loc-10', 10), ('Prof-13', 'Loc-10', 11), ('Prof-13', 'Loc-10', 12), ('Prof-13', 'Loc-10', 13), ('Prof-13', 'Loc-14', 0), ('Prof-13', 'Loc-14', 1), ('Prof-13', 'Loc-14', 2), ('Prof-13', 'Loc-14', 3), ('Prof-13', 'Loc-14', 4), ('Prof-13', 'Loc-14', 5), ('Prof-13', 'Loc-14', 6), ('Prof-13', 'Loc-14', 7), ('Prof-13', 'Loc-14', 8), ('Prof-13', 'Loc-14', 9), ('Prof-13', 'Loc-14', 10), ('Prof-13', 'Loc-14', 11), ('Prof-13', 'Loc-14', 12), ('Prof-13', 'Loc-14', 13), ('Prof-1', 'Loc-6', 0), ('Prof-1', 'Loc-6', 1), ('Prof-1', 'Loc-6', 2), ('Prof-1', 'Loc-6', 3), ('Prof-1', 'Loc-6', 4), ('Prof-1', 'Loc-6', 5), ('Prof-1', 'Loc-6', 6), ('Prof-1', 'Loc-6', 7), ('Prof-1', 'Loc-6', 8), ('Prof-1', 'Loc-6', 9), ('Prof-1', 'Loc-6', 10), ('Prof-1', 'Loc-6', 11), ('Prof-1', 'Loc-6', 12), ('Prof-1', 'Loc-6', 13), ('Prof-1', 'Loc-10', 0), ('Prof-1', 'Loc-10', 1), ('Prof-1', 'Loc-10', 2), ('Prof-1', 'Loc-10', 3), ('Prof-1', 'Loc-10', 4), ('Prof-1', 'Loc-10', 5), ('Prof-1', 'Loc-10', 6), ('Prof-1', 'Loc-10', 7), ('Prof-1', 'Loc-10', 8), ('Prof-1', 'Loc-10', 9), ('Prof-1', 'Loc-10', 10), ('Prof-1', 'Loc-10', 11), ('Prof-1', 'Loc-10', 12), ('Prof-1', 'Loc-10', 13), ('Prof-1', 'Loc-14', 0), ('Prof-1', 'Loc-14', 1), ('Prof-1', 'Loc-14', 2), ('Prof-1', 'Loc-14', 3), ('Prof-1', 'Loc-14', 4), ('Prof-1', 'Loc-14', 5), ('Prof-1', 'Loc-14', 6), ('Prof-1', 'Loc-14', 7), ('Prof-1', 'Loc-14', 8), ('Prof-1', 'Loc-14', 9), ('Prof-1', 'Loc-14', 10), ('Prof-1', 'Loc-14', 11), ('Prof-1', 'Loc-14', 12), ('Prof-1', 'Loc-14', 13)]
+_______________________________________________________________________
+Time taken: 2.7801125049591064 sec
+==================
+Course: Pref-Prof, # Students, Duration, Before-Courses
+Course-0: ['Prof-6', 'Prof-5', 'Prof-1', 'Prof-12', 'Prof-9', 'Prof-10'], 37, 1, []
+Course-1: ['Prof-3', 'Prof-5', 'Prof-9', 'Prof-8', 'Prof-0', 'Prof-6', 'Prof-4'], 10, 1, []
+Course-2: ['Prof-2', 'Prof-6', 'Prof-1', 'Prof-8', 'Prof-10', 'Prof-12', 'Prof-5'], 13, 2, ['Course-0']
+Course-3: ['Prof-12', 'Prof-4', 'Prof-13', 'Prof-7', 'Prof-6', 'Prof-10'], 5, 1, ['Course-7']
+Course-4: ['Prof-0', 'Prof-12', 'Prof-5', 'Prof-4', 'Prof-13', 'Prof-3'], 27, 2, []
+Course-5: ['Prof-3', 'Prof-11', 'Prof-8', 'Prof-4', 'Prof-12', 'Prof-6', 'Prof-7', 'Prof-5', 'Prof-0'], 40, 1, ['Course-3']
+Course-6: ['Prof-2', 'Prof-4', 'Prof-6', 'Prof-1', 'Prof-8'], 27, 1, ['Course-9']
+Course-7: ['Prof-5', 'Prof-7', 'Prof-10', 'Prof-13', 'Prof-11', 'Prof-4'], 29, 2, []
+Course-8: ['Prof-4', 'Prof-9', 'Prof-8', 'Prof-2', 'Prof-13', 'Prof-1', 'Prof-6', 'Prof-7'], 26, 2, ['Course-4', 'Course-7']
+Course-9: ['Prof-6', 'Prof-9', 'Prof-13', 'Prof-1', 'Prof-3', 'Prof-7'], 7, 2, ['Course-0', 'Course-5']
+==================
+Location: Capacity
+Loc-0 38, Loc-1 26, Loc-2 19, Loc-3 17, Loc-4 31, Loc-5 29, Loc-6 41, Loc-7 30, Loc-8 14, Loc-9 16, Loc-10 42, Loc-11 14, Loc-12 14, Loc-13 28, Loc-14 42, Loc-15 25, Loc-16 22, 
+================== TimeTable ==================
+      C0      C1    C2    C3      C4      C5    C6    C7      C8    C9
+0         P10L10                              P3L3        P12L12      
+1                 P3L3                                    P12L12      
+2                 P3L3                                            P8L8
+3                             P10L10                              P8L8
+4                             P10L10                                  
+5   P3L3                              P10L10                          
+6                                                                     
+7                       P3L3                                          
+8                                                                     
+9                                                   P3L3              
+10                                                  P3L3              
+11                                                                    
+12                                                                    
+13                                                                    
+_______________________________________________________________________
+_______________________________________________________________________
+Time taken: 1.9929296970367432 sec
+==================
+Course: Pref-Prof, # Students, Duration, Before-Courses
+Course-0: ['Prof-3', 'Prof-13', 'Prof-5', 'Prof-7', 'Prof-1', 'Prof-2'], 35, 1, []
+Course-1: ['Prof-6', 'Prof-7', 'Prof-12', 'Prof-11', 'Prof-9'], 16, 2, []
+Course-2: ['Prof-7', 'Prof-9', 'Prof-13', 'Prof-0', 'Prof-8', 'Prof-5', 'Prof-4'], 39, 2, []
+Course-3: ['Prof-4', 'Prof-9', 'Prof-0', 'Prof-1', 'Prof-3', 'Prof-8', 'Prof-6'], 14, 1, []
+Course-4: ['Prof-10', 'Prof-8', 'Prof-2', 'Prof-14', 'Prof-5', 'Prof-7', 'Prof-6', 'Prof-11', 'Prof-13'], 14, 1, []
+Course-5: ['Prof-8', 'Prof-4', 'Prof-12', 'Prof-2', 'Prof-13', 'Prof-5', 'Prof-10'], 29, 1, []
+Course-6: ['Prof-1', 'Prof-13', 'Prof-8', 'Prof-3', 'Prof-0'], 37, 1, ['Course-5', 'Course-1']
+Course-7: ['Prof-9', 'Prof-13', 'Prof-2', 'Prof-8'], 27, 1, []
+Course-8: ['Prof-7', 'Prof-12', 'Prof-11', 'Prof-1'], 36, 2, []
+Course-9: ['Prof-4', 'Prof-8', 'Prof-0', 'Prof-14', 'Prof-11', 'Prof-5', 'Prof-7', 'Prof-12', 'Prof-3'], 21, 2, ['Course-6', 'Course-0']
+Course-10: ['Prof-1', 'Prof-6', 'Prof-0', 'Prof-5', 'Prof-12'], 35, 1, ['Course-5', 'Course-8']
+==================
+Location: Capacity
+Loc-0 24, Loc-1 14, Loc-2 22, Loc-3 41, Loc-4 40, Loc-5 39, Loc-6 21, Loc-7 16, Loc-8 37, Loc-9 29, Loc-10 22, Loc-11 15, Loc-12 35, Loc-13 26, Loc-14 13, Loc-15 19, Loc-16 28, 
+================== TimeTable ==================
+      C0    C1    C2    C3    C4    C5    C6    C7    C8    C9   C10
+0               P3L3  P2L2                                P6L6      
+1               P3L3                                      P6L6      
+2                           P3L3                                    
+3   P4L4                                P2L2                    P3L3
+4                                             P3L3                  
+5         P3L3                                                      
+6         P3L3                                                      
+7                                 P3L3                              
+8                                                   P3L3            
+9                                                   P3L3            
+10                                                                  
+11                                                                  
+12                                                                  
+13                                                                  
+_______________________________________________________________________
+_______________________________________________________________________
+Time taken: 4.420858144760132 sec
+==================
+Course: Pref-Prof, # Students, Duration, Before-Courses
+Course-0: ['Prof-9', 'Prof-12', 'Prof-10', 'Prof-7', 'Prof-17', 'Prof-2'], 32, 1, []
+Course-1: ['Prof-8', 'Prof-11', 'Prof-14', 'Prof-5'], 8, 1, ['Course-6']
+Course-2: ['Prof-0', 'Prof-6', 'Prof-7', 'Prof-8', 'Prof-16', 'Prof-17', 'Prof-15', 'Prof-11'], 29, 1, []
+Course-3: ['Prof-1', 'Prof-13', 'Prof-2', 'Prof-5', 'Prof-3', 'Prof-6', 'Prof-14'], 28, 1, []
+Course-4: ['Prof-5', 'Prof-12', 'Prof-14', 'Prof-10', 'Prof-7', 'Prof-13', 'Prof-4'], 15, 1, []
+Course-5: ['Prof-11', 'Prof-6', 'Prof-16', 'Prof-13', 'Prof-3', 'Prof-10', 'Prof-1', 'Prof-12'], 46, 1, ['Course-4']
+Course-6: ['Prof-11', 'Prof-13', 'Prof-4', 'Prof-15'], 31, 2, []
+Course-7: ['Prof-10', 'Prof-6', 'Prof-3', 'Prof-11', 'Prof-8', 'Prof-1'], 43, 2, ['Course-2']
+Course-8: ['Prof-16', 'Prof-9', 'Prof-12', 'Prof-1'], 18, 1, ['Course-3']
+Course-9: ['Prof-14', 'Prof-10', 'Prof-17', 'Prof-7', 'Prof-3', 'Prof-4'], 18, 1, ['Course-2', 'Course-3']
+Course-10: ['Prof-17', 'Prof-9', 'Prof-16', 'Prof-10', 'Prof-4', 'Prof-14', 'Prof-6'], 35, 2, ['Course-4']
+==================
+Location: Capacity
+Loc-0 11, Loc-1 31, Loc-2 21, Loc-3 39, Loc-4 46, Loc-5 15, Loc-6 14, Loc-7 38, Loc-8 48, Loc-9 39, Loc-10 45, Loc-11 26, Loc-12 38, Loc-13 17, Loc-14 19, 
+================== TimeTable ==================
+      C0    C1    C2      C3    C4    C5    C6      C7      C8      C9     C10
+0   P3L3                            P9L9        P16L16  P13L13  P11L11        
+1         P3L3                                  P16L16                  P13L13
+2                     P16L16                                            P13L13
+3               P3L3                                                          
+4                             P3L3                                            
+5                                         P3L3                                
+6                                         P3L3                                
+7                                                                             
+8                                                                             
+9                                                                             
+10                                                                            
+11                                                                            
+12                                                                            
+13                                                                            
+14                                                                            
+15                                                                            
+_______________________________________________________________________
+_______________________________________________________________________
+Sol: None
+Is sol complete and consistent: False
+Time taken: 1.3306028842926025 sec
+_______________________________________________________________________
+_______________________________________________________________________
+Sol: None
+Is sol complete and consistent: False
+Time taken: 2.8730640411376953 sec
+_______________________________________________________________________
+_______________________________________________________________________
