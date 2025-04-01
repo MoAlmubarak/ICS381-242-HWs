@@ -1,6 +1,9 @@
 from copy import deepcopy
- 
+
 def backtracking(csp):
+    """
+    Backtracking search algorithm for CSP.
+    """
     # domain dictionary of all variables 
     # we getting this info from the csp class
     # we create a deep copy to avoid modifying csp.domains when we pass by ref
@@ -11,61 +14,93 @@ def backtracking(csp):
     # call ac3 before searching
     is_consistent, updated_domains = ac3(csp, arcs_queue=None, 
                                          assignment=None,
-                                         current_domains=current_domains, )
+                                         current_domains=current_domains)
     if is_consistent:
         return backtracking_helper(csp, assignment={}, current_domains=updated_domains)
     else:
         return None
 
 def backtracking_helper(csp, assignment={}, current_domains=None):
-    # base-case
-    if csp.is_goal(assignment):
+    """
+    Helper function for backtracking search.
+    """
+    # base-case: if assignment is complete, return it
+    if len(assignment) == len(csp.variables):
         return assignment
         
-    var = var_selection_function(csp, assignment, current_domains)             # example use mrv
-    val_order = val_order_function(csp, var, assignment, current_domains)      # example use lcv
+    # Select unassigned variable using MRV heuristic
+    var = var_selection_function(csp, assignment, current_domains)
+    
+    # Order domain values using LCV heuristic
+    val_order = val_order_function(csp, var, assignment, current_domains)
     
     # loop on each child search node
     for val in val_order:
+        # Assign the value to the variable
         assignment[var] = val
-        current_domains[var] = [val] # restrict domain of what we currently assigned
+        # Restrict domain of the assigned variable
+        old_domain = current_domains[var]
+        current_domains[var] = [val]
         
+        # Check if assignment is consistent with constraints
         if csp.check_partial_assignment(assignment):
-            # create deep copy of current_domains for each child path 
-            # since ac3 potentially modifies it and sometimes we may need to backtrack and revert to older current_domains. 
-            # not efficient memory-wise but easier to code than undo-stack
+            # Create deep copy of current_domains for each child path 
             child_domains = deepcopy(current_domains)
-            # setup queue with just the arcs of unassigned neighbors of var
+            
+            # Setup queue with arcs of unassigned neighbors of var
             arcs_queue = [(n, var) for n in csp.adjacency[var] if n not in assignment]
             arcs_queue = set(arcs_queue)
+            
+            # Apply AC3 to enforce arc consistency
             is_consistent, child_domains = ac3(csp, arcs_queue=arcs_queue, 
                                                assignment=assignment,
                                                current_domains=child_domains)
             
-            # if ac3 finds no issues, then continue down this search path
+            # If AC3 finds no issues, continue down this search path
             if is_consistent:
                 result = backtracking_helper(csp, assignment=assignment, current_domains=child_domains)
                 
-                # if this downstream path is returning a solution, 
-                # return pass it to parent
+                # If solution found, return it
                 if result is not None:
                     return result
-                    
-        assignment.pop(var, None) # technically this line is not needed with this code
+        
+        # If we reach here, this value didn't work, remove it from assignment
+        assignment.pop(var)
+        current_domains[var] = old_domain
     
-    # if no value for current variable is viable, 
-    # then we return None indicating no-solution down this path
+    # If no value works, return None (no solution in this branch)
     return None
 
-# default ordering; returns variables in same order as given
-# def var_selection_function(csp, assignment, current_domains):
-#     return [var for var in csp.variables if var not in assignment][0]
+def var_selection_function(csp, assignment, current_domains):
+    """
+    Uses the MRV (Minimum Remaining Values) heuristic to select the next variable.
+    """
+    unassigned_vars = [var for var in csp.variables if var not in assignment]
+    return min(unassigned_vars, key=lambda var: len(current_domains[var]))
 
-# default ordering; returns values in same order as given
-# def val_order_function(csp, var, assignment, current_domains):
-#     return [val for val in current_domains[var]]
+def val_order_function(csp, var, assignment, current_domains):
+    """
+    Uses the LCV (Least Constraining Value) heuristic to order the values.
+    """
+    # Get unassigned neighbors
+    neighbors = [n for n in csp.adjacency[var] if n not in assignment]
+    
+    # Count conflicts for each value
+    def count_conflicts(val):
+        conflicts = 0
+        for neighbor in neighbors:
+            for neighbor_val in current_domains[neighbor]:
+                if not csp.constraint_consistent(var, val, neighbor, neighbor_val):
+                    conflicts += 1
+        return conflicts
+    
+    # Return values ordered by the number of conflicts (least first)
+    return sorted(current_domains[var], key=count_conflicts)
     
 def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
+    """
+    AC3 algorithm for enforcing arc consistency.
+    """
     # if no arcs_queue is passed,
     # setup a full arcs queue based on csp.adjacency
     if arcs_queue is None:
@@ -88,6 +123,11 @@ def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
     # ac3 starts looping
     while len(arcs_queue) > 0:
         xi, xj = arcs_queue.pop()
+        
+        # Skip if xi is already assigned
+        if xi in assignment:
+            continue
+            
         if revise(csp, xi, xj, current_domains):
             if len(current_domains[xi]) == 0:
                 return False, current_domains
@@ -99,8 +139,11 @@ def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
     return True, current_domains
     
 def revise(csp, xi, xj, current_domains):
+    """
+    Revises domain of xi with respect to xj.
+    """
     revised = False
-    for valxi in deepcopy(current_domains[xi]): # why a deepcopy is needed?
+    for valxi in deepcopy(current_domains[xi]):  # deepcopy needed to avoid modifying during iteration
         satisfiable = False
         for valxj in current_domains[xj]:
             if csp.constraint_consistent(xi, valxi, xj, valxj):
@@ -111,67 +154,3 @@ def revise(csp, xi, xj, current_domains):
             revised = True
             
     return revised
-
-# Minimum Remaining Values (MRV) heuristic implementation
-def mrv(csp, assignment, current_domains):
-    """
-    Minimum Remaining Values (MRV) heuristic selects the variable with the fewest 
-    remaining values in its domain.
-    
-    Args:
-        csp: The constraint satisfaction problem
-        assignment: Current partial assignment
-        current_domains: Current domains of variables
-    
-    Returns:
-        Variable with the minimum remaining values
-    """
-    unassigned_vars = [var for var in csp.variables if var not in assignment]
-    
-    # Return the variable with the minimum remaining values in its domain
-    return min(unassigned_vars, key=lambda var: len(current_domains[var]))
-
-# Least Constraining Value (LCV) heuristic implementation
-def lcv(csp, var, assignment, current_domains):
-    """
-    Least Constraining Value (LCV) heuristic orders values by the number of values 
-    they eliminate in neighboring variables. Values that eliminate the fewest options 
-    for neighboring variables are tried first.
-    
-    Args:
-        csp: The constraint satisfaction problem
-        var: The variable to assign
-        assignment: Current partial assignment
-        current_domains: Current domains of variables
-    
-    Returns:
-        List of values ordered by the LCV heuristic
-    """
-    # Get neighboring variables that are not yet assigned
-    neighbors = [n for n in csp.adjacency[var] if n not in assignment]
-    
-    # For each value in the domain of var, count how many values it would eliminate
-    # from neighboring variables
-    def count_conflicts(val):
-        conflicts = 0
-        for neighbor in neighbors:
-            for neighbor_val in current_domains[neighbor]:
-                if not csp.constraint_consistent(var, val, neighbor, neighbor_val):
-                    conflicts += 1
-        return conflicts
-    
-    # Return values ordered by the number of conflicts they create (least first)
-    return sorted(current_domains[var], key=count_conflicts)
-
-# Update the variable selection and value ordering functions in backtracking
-def var_selection_function(csp, assignment, current_domains):
-    """
-    Uses the MRV (Minimum Remaining Values) heuristic to select the next variable.
-    """
-    return mrv(csp, assignment, current_domains)
-
-def val_order_function(csp, var, assignment, current_domains):
-    """
-    Uses the LCV (Least Constraining Value) heuristic to order the values.
-    """
-    return lcv(csp, var, assignment, current_domains)

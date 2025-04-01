@@ -1,3 +1,4 @@
+import numpy as np  # Add this import at the top of the file
 def display_schedule(sol_assignment, schedulercsp):
     print('==================')
     print('Course: Pref-Prof, # Students, Duration, Before-Courses')

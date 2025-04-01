@@ -4,30 +4,24 @@ class SchedulerCSP:
     """
     CSP formulation of the course scheduling problem.
     
-    Variables:
-    - Courses
-    
-    Domains:
-    - Each course can be assigned (professor, location, start_time)
-    
+    Variables: Courses
+    Domains: (professor, location, start_time) tuples
     Constraints:
     - Course prerequisites must be respected
     - No professor can teach multiple courses at the same time
     - No location can host multiple courses at the same time
     - Location capacity must be sufficient for the course
-    - Courses must be taught by available professors
-    - Courses must fit within the given time slots based on duration
     """
     
     def __init__(self, courses, professors, loc_info_dict, course_info_dict, time_slots):
         """
-        Initialize the SchedulerCSP with course, professor, location, and time information.
+        Initialize the SchedulerCSP.
         
         Args:
             courses: List of course names
             professors: List of professor names
-            loc_info_dict: Dictionary of location name -> capacity
-            course_info_dict: Dictionary of course name -> [preferred_profs, student_count, duration, prerequisites]
+            loc_info_dict: Dictionary mapping location names to capacities
+            course_info_dict: Dictionary mapping course names to [preferred_profs, student_count, duration, prerequisites]
             time_slots: List of available time slots
         """
         self.variables = courses
@@ -36,7 +30,7 @@ class SchedulerCSP:
         self.course_info_dict = course_info_dict
         self.time_slots = time_slots
         
-        # Create a mapping of courses that must come before other courses
+        # Create mapping of courses that must come before others
         self.before_courses = defaultdict(list)
         for course in course_info_dict:
             for prereq in course_info_dict[course][3]:  # prerequisites are at index 3
@@ -52,11 +46,10 @@ class SchedulerCSP:
         """
         Create domains for each course.
         
-        Domain for a course is a list of (professor, location, start_time) tuples
-        that satisfy the basic constraints:
-        - Professor must be preferred for the course
-        - Location capacity must be sufficient for the course
-        - Course must fit within time slots
+        A domain value is a tuple (professor, location, start_time) that satisfies:
+        - Professor is in the preferred list for the course
+        - Location has enough capacity for the course
+        - Course fits within available time slots
         """
         domains = {}
         
@@ -80,38 +73,38 @@ class SchedulerCSP:
     
     def _create_adjacency(self):
         """
-        Create an adjacency list for the constraint graph.
-        
-        Two courses are adjacent if:
-        - One is a prerequisite for the other
-        - They could potentially share the same professor or location at the same time
+        Create adjacency list for the constraint graph.
+        All variables are connected to all other variables.
         """
         adjacency = {var: [] for var in self.variables}
         
-        # Add edges for all pairs of different courses
-        for i, course1 in enumerate(self.variables):
-            for j, course2 in enumerate(self.variables[i+1:], i+1):
-                # Courses are adjacent if they have constraints between them
-                adjacency[course1].append(course2)
-                adjacency[course2].append(course1)
+        # Connect each variable to all other variables
+        for var1 in self.variables:
+            for var2 in self.variables:
+                if var1 != var2:
+                    adjacency[var1].append(var2)
         
         return adjacency
     
     def is_goal(self, assignment):
         """
-        Check if the assignment is complete and consistent.
+        Check if assignment is complete and consistent.
         
         Args:
-            assignment: Dictionary mapping variables (courses) to values (prof, loc, time)
+            assignment: Dictionary mapping variables to values
             
         Returns:
             True if assignment is complete and consistent, False otherwise
         """
-        # Check if assignment is complete (all variables assigned)
+        # Handle None assignment
+        if assignment is None:
+            return False
+        
+        # Check if assignment is complete
         if len(assignment) != len(self.variables):
             return False
         
-        # Check if assignment is consistent with all constraints
+        # Check if assignment is consistent
         return self.check_partial_assignment(assignment)
     
     def check_partial_assignment(self, assignment):
@@ -119,12 +112,16 @@ class SchedulerCSP:
         Check if a partial assignment is consistent with all constraints.
         
         Args:
-            assignment: Dictionary mapping variables (courses) to values (prof, loc, time)
+            assignment: Dictionary mapping variables to values
             
         Returns:
             True if consistent, False otherwise
         """
-        # Check all binary constraints between assigned variables
+        # Handle None assignment
+        if assignment is None:
+            return False
+            
+        # Check all pairs of assigned variables
         for course1 in assignment:
             prof1, loc1, start_time1 = assignment[course1]
             duration1 = self.course_info_dict[course1][2]
@@ -197,7 +194,7 @@ class SchedulerCSP:
         if time_overlap and loc1 == loc2:
             return False
             
-        # Check prerequisite constraints
+        # Check prerequisite constraints in both directions
         if var2 in self.course_info_dict[var1][3]:  # var2 is a prerequisite for var1
             if end_time2 > start_time1:
                 return False
