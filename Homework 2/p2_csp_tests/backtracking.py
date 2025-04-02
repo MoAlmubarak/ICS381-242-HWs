@@ -4,12 +4,6 @@ def backtracking(csp):
     """
     Main backtracking function that sets up the initial domains and 
     calls the recursive helper function.
-    
-    Args:
-        csp: The CSP object with variables, domains, and constraints
-        
-    Returns:
-        A complete assignment that satisfies all constraints, or None if no solution exists
     """
     # Initialize the current domains from the CSP's domains
     current_domains = {}
@@ -18,7 +12,7 @@ def backtracking(csp):
     
     # Run AC3 before search to enforce arc consistency
     is_consistent, updated_domains = ac3(csp, arcs_queue=None, 
-                                         assignment=None,
+                                         assignment={},
                                          current_domains=current_domains)
     
     # If AC3 finds inconsistency, then no solution exists
@@ -54,17 +48,16 @@ def backtracking_helper(csp, assignment={}, current_domains=None):
         # Add {var = val} to assignment
         assignment[var] = val
         
-        # Restrict domain of currently assigned variable
-        current_domains[var] = [val]
-        
         # Check if the assignment is consistent with constraints
         if csp.check_partial_assignment(assignment):
             # Create a deep copy of domains for this branch
             child_domains = deepcopy(current_domains)
             
+            # Set domain of currently assigned variable
+            child_domains[var] = [val]
+            
             # Set up arc consistency queue for neighbors of newly assigned variable
             arcs_queue = [(n, var) for n in csp.adjacency[var] if n not in assignment]
-            arcs_queue = set(arcs_queue)
             
             # Run AC3 to enforce arc consistency
             is_consistent, child_domains = ac3(csp, arcs_queue=arcs_queue, 
@@ -145,24 +138,16 @@ def order_domain_values(csp, var, assignment, current_domains):
 def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
     """
     AC3 algorithm for enforcing arc consistency.
-    
-    Args:
-        csp: The CSP object
-        arcs_queue: Queue of arcs to process (optional)
-        assignment: Current partial assignment (optional)
-        current_domains: Current domains of variables (optional)
-        
-    Returns:
-        (is_consistent, updated_domains) tuple
     """
     # If no arcs_queue is provided, initialize it with all arcs
     if arcs_queue is None:
-        arcs_queue = []
+        arcs_queue = set()
         for var in csp.variables:
             neighbors = csp.adjacency[var]
             for n in neighbors:
-                arcs_queue.extend([(var, n), (n, var)])
-    arcs_queue = set(arcs_queue)
+                arcs_queue.add((var, n))
+    else:
+        arcs_queue = set(arcs_queue)
     
     # If no domains provided, initialize from CSP
     if current_domains is None:
@@ -178,6 +163,10 @@ def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
     while arcs_queue:
         xi, xj = arcs_queue.pop()
         
+        # Skip if xi is already assigned
+        if xi in assignment:
+            continue
+            
         # Revise the domain of xi with respect to xj
         if revise(csp, xi, xj, current_domains):
             # If domain of xi is now empty, return False (inconsistent)
@@ -185,7 +174,7 @@ def ac3(csp, arcs_queue=None, assignment=None, current_domains=None):
                 return False, current_domains
             
             # Add neighbors of xi (except xj) to the queue
-            neighbors = [n for n in csp.adjacency[xi] if (n != xj and n not in assignment)]
+            neighbors = [n for n in csp.adjacency[xi] if n != xj and n not in assignment]
             for xk in neighbors:
                 arcs_queue.add((xk, xi))
     
